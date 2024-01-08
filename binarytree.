@@ -1,0 +1,121 @@
+#include <iostream>
+#include "vector.h"
+typedef int object;
+
+using namespace std;
+
+struct Node {
+    object value;
+    Node* left;
+    Node* right;
+
+    Node() : left(nullptr), right(nullptr) {}
+    Node(object value): value(value), left(nullptr), right(nullptr) {}
+
+};
+
+
+class BinaryTree {
+    private:
+        Node* root;
+        size_t length;
+        Vector<Vector<object>> leftArray = Vector<Vector<object>>();
+            Vector<Vector<object>> rightArray = Vector<Vector<object>>();
+
+
+        inline void append(Node* node) {
+            Node* copiedRoot = root;
+            while (copiedRoot != nullptr) {
+                if (copiedRoot->value < node->value) {
+                        if (copiedRoot -> right == nullptr) {
+                            copiedRoot -> right = node;
+                            return;
+                        }
+                        else {
+                            copiedRoot = copiedRoot -> right;
+                        }
+                }
+                else {
+                        if (copiedRoot -> left == nullptr) {
+                            copiedRoot -> left = node;
+                            return;
+                        }
+                        else {
+                            copiedRoot = copiedRoot -> left;
+                        }
+                }
+            }
+        }
+
+    public:
+        BinaryTree(): root(nullptr), length(0) {}
+
+        void add(object value) {
+            Node* node = new Node(value);
+            if (root == nullptr) {
+                root = node;
+            }
+            else {
+                append(node);
+            }
+
+            length++;
+        }
+
+        void repeat(char x, size_t quantity, const char* end="\n") {
+            for (size_t i = 0;i < quantity;i++) {
+                cout<<x;
+            }
+
+            cout<<end;
+        }
+
+        void branches(char leftbranch = '/', char rightbranch = '\\', const char* end="") {
+            cout<<leftbranch<<' '<<rightbranch<<end;
+        }
+
+        void display(Node* node, int index, Vector<Vector<object>>& array) {
+            // cout<<node->value<<endl;
+            array[index].append(node -> value);
+            index++;
+
+            if (node->left != nullptr) {
+                display(node->left, index, array);
+            }
+            else {
+                array[index].append(0);
+            }
+            
+            if (node->right != nullptr) {
+                display(node->right, index, array);
+            }
+            else {
+                array[index].append(0);
+            }
+        }
+
+       
+};
+
+int main() { 
+    BinaryTree tree = BinaryTree();
+    // for (int i = 0;i < 5;i++) {
+    //     tree.add(i);
+    // }
+
+    // for (int i = 0;i < 5;i++) {
+    //     tree.add(i);
+    // }
+
+    for (int i = 0;i > -5;i--) {
+        tree.add(i);
+    }
+
+    for (int i = 0;i > -5;i--) {
+        tree.add(i);
+    }
+
+    // tree.printRight();
+    // tree.printLeft();
+    return 0;
+}
